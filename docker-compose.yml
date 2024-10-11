@@ -1,0 +1,44 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:latest
+    user: "1000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+      - ./grafana/config:/etc/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=changeme
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: always
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-volume:/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+    restart: always
+
+  speedtest-exporter:
+    image: jraviles/prometheus_speedtest:latest
+    ports:
+      - "9516:9516"
+    restart: always
+
+
+  ping_exporter:
+    image: czerwonk/ping_exporter
+    ports:
+      - "9427:9427"
+    volumes:
+      - ./ping_exporter/config:/config:ro
+    restart: always
+
+
+volumes:
+  prometheus-volume:
+    external: true
