@@ -1,0 +1,17 @@
+targets:
+  - 8.8.8.8
+  - 8.8.4.4
+  - 1.1.1.1
+  - 1.0.0.1
+  - google.com
+  - cloudflare.com
+
+dns:
+  refresh: 2m15s
+  namerserver: 1.1.1.1
+
+ping:
+  interval: 2s
+  timeout: 3s
+  history-size: 42
+  payload-size: 120
